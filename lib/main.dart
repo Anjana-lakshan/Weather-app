@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:practical_test/model/WeatherData.dart';
 import 'package:practical_test/model/cityList.dart';
 import 'package:practical_test/model/responseData.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Weather',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -31,8 +33,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  WeatherData weatherData;
   ResponseData responseData;
-  String url = "http://api.openweathermap.org/data/2.5/group";
+  String url = "https://api.openweathermap.org/data/2.5/group";
 
   @override
   void initState() {
@@ -60,18 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     String queryString = Uri(queryParameters: queryParams).query;
     var requestUrl = url + '?' + queryString;
-    final response = await http.get(requestUrl);
+    final response = await http.get(Uri.parse(requestUrl));
     print('get data');
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      print(response.statusCode);
-      setState(() {
-        responseData = ResponseData.fromJson(response.body);
-      });
+      print(json.decode(response.body)['list'][0]);
+      weatherData = WeatherData.fromJson(json.decode(response.body)['list'][0]);
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
       throw Exception('Failed to load data');
     }
   }
@@ -82,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (responseData != null) {
+
       return Scaffold(
         appBar: AppBar(
           title: Text('Weather Data'),
@@ -90,32 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                child: responseData != null
-                    ? Text(responseData.cnt.toString())
-                    : Text('Loading'),
-              )
+              Text('ID : '+ (weatherData == null ? '...': weatherData.id.toString())),
+              Text('Name : '+ (weatherData == null ? '...': weatherData.name.toString())),
+              Text('Temp : '+ (weatherData == null ? '...': weatherData.main.temp.toString())),
+              Text('Desc : '+ (weatherData == null ? '...': weatherData.weather.description.toString())),
             ],
           ),
         ),
       );
     }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Weather Data'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              child: Text('Loading'),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }
