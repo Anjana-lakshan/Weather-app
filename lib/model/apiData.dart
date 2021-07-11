@@ -37,31 +37,31 @@ class ApiData {
 
   Map<String, dynamic> toMap() {
     return {
-      'coord': coord.toMap(),
-      'sys': sys.toMap(),
-      'weather': weather?.map((x) => x.toMap())?.toList(),
-      'main': main.toMap(),
-      'visibility': visibility,
-      'wind': wind.toMap(),
-      'clouds': clouds.toMap(),
-      'dt': dt,
-      'id': id,
-      'name': name,
+      //'coord': coord.toMap(),
+      //'sys': sys.toMap(),
+      //'weather': weather?.map((x) => x.toMap())?.toList(),
+     // 'main': main.toMap(),
+      //'visibility': visibility,
+      //'wind': wind.toMap(),
+     // 'clouds': clouds.toMap(),
+     // 'dt': dt,
+     // 'id': id,
+     // 'name': name,
     };
   }
 
   factory ApiData.fromMap(Map<String, dynamic> map) {
     return ApiData(
-      coord: Coord.fromMap(map['coord']),
-      sys: Sys.fromMap(map['sys']),
-      weather: List<Weather>.from(map['weather']?.map((x) => Weather.fromMap(x))),
-      main: Main.fromMap(map['main']),
-      visibility: map['visibility']?.toInt(),
-      wind: Wind.fromMap(map['wind']),
-      clouds: Clouds.fromMap(map['clouds']),
-      dt: map['dt']?.toInt(),
-      id: map['id']?.toInt(),
-      name: map['name'],
+      //coord: Coord.fromMap(map['coord']),
+      //sys: Sys.fromMap(map['sys']),
+      //weather: List<Weather>.from(map['weather']?.map((x) => Weather.fromMap(x))),
+      //main: Main.fromMap(map['main']),
+      //visibility: map['visibility']?.toInt(),
+      //wind: Wind.fromMap(map['wind']),
+      //clouds: Clouds.fromMap(map['clouds']),
+      //dt: map['dt']?.toInt(),
+      //id: map['id']?.toInt(),
+      //name: map['name'],
     );
   }
 

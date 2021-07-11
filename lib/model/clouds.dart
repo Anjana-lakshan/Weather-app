@@ -1,38 +1,8 @@
 import 'dart:convert';
 
 class Clouds {
-  final int all;
-  Clouds({
-     this.all,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'all': all,
-    };
+  int all;
+  Clouds.fromJson(Map<String, dynamic> json){
+    this.all = int.parse(json['all'].toString());
   }
-
-  factory Clouds.fromMap(Map<String, dynamic> map) {
-    return Clouds(
-      all: map['all']?.toInt(),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Clouds.fromJson(String source) => Clouds.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'Clouds(all: $all)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-  
-    return other is Clouds &&
-      other.all == all;
-  }
-
-  @override
-  int get hashCode => all.hashCode;
 }
